@@ -4,13 +4,12 @@ import shutil
 
 
 class Parser:    
-    def __init__(self):
-        self.extensions:'List[str]' = []
+    extensions: List[str] = []
 
     def valid_extension(self, extension):
         return extension in self.extensions
 
-    def parse(self, path:'Path', source:'Path', dest:'Path'):
+    def parse(self, path: 'Path', source: 'Path', dest: 'Path'):
         raise NotImplementedError()
 
     def read(self, path):
@@ -27,10 +26,7 @@ class Parser:
 
     
 class ResourceParser(Parser):
-
-    def __init__(self):
-        super().__init__()        
-        self.extensions = [".jpg", ".png", ".gif", ".css", ".html"]
+    extensions = [".jpg", ".png", ".gif", ".css", ".html"]
 
     def parse(self, path:'Path', source:'Path', dest:'Path'):
         self.copy(path, source, dest)
