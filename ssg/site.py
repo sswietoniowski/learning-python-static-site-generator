@@ -30,5 +30,4 @@ class Site:
         if parser is not None:
             parser.parse(path, self.source, self.dest)
         else:
-            print("Not Implemented")
-
+            print("Not Implemented")            
