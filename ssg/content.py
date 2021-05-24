@@ -3,16 +3,14 @@ from yaml import load, FullLoader
 from collections.abc import Mapping
 
 
-class Content(Mapping):
-    
+class Content(Mapping):    
     __delimiter = r"^(?:-|\+){3}\s*$"
     __regex = re.compile(__delimiter, re.MULTILINE)
 
     @classmethod
     def load(cls, string):
-        _, fm, content = cls.__regex.split(string, 2)
-        
-        metadata = load(fm, FullLoader)
+        _, fm, content = cls.__regex.split(string, 2)        
+        metadata = load(fm, Loader=FullLoader)
         return cls(metadata, content)
     
     def __init__(self, metadata, content):
@@ -25,21 +23,24 @@ class Content(Mapping):
     
     @property
     def type(self):
-        return self.data.get("type")
+        return self.data["type"] if "type" in self.data else None
 
     @type.setter
-    def type(self, value):
-        self.data["type"] = value
+    def type(self, type):
+        self.data["type"] = type
         
     def __getitem__(self, key):
-        return self.date.get(key)
+        return self.data[key]
     
     def __iter__(self):
-        return self.data.__iter__()
+        self.data.__iter__()
     
     def __len__(self):
         return len(self.data)
     
     def __repr__(self):
-        data = { key: value for key, value in self.data.items() if key != "content" }
+        data = {}
+        for key, value in self.data.items():
+            if key != "content":
+                data[key] = value
         return str(data)
